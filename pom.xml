@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.syf</groupId>
+    <artifactId>TV-Microservice-admin</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>admin-center</module>
+        <module>gateway-center</module>
+        <module>user-center</module>
+        <module>videos-center</module>
+        <module>category-center</module>
+        <module>inner-starter</module>
+        <module>inner-starter</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
+        <mybatis.spring.boot.starter.version>2.1.3</mybatis.spring.boot.starter.version>
+        <mysql.connector.java.version>5.1.38</mysql.connector.java.version>
+        <druid.vcerion>1.2.11</druid.vcerion>
+        <commons.fileupload.version>1.4</commons.fileupload.version>
+        <javacpp.version>1.4.1</javacpp.version>
+        <javacv.version>1.4.1</javacv.version>
+        <opencv.platform.version>3.4.1-1.4.1</opencv.platform.version>
+        <ffmpeg.platform.version>3.4.2-1.4.1</ffmpeg.platform.version>
+        <aliyun.java.sdk.core.version>4.5.3</aliyun.java.sdk.core.version>
+        <commons.lang.version>2.6</commons.lang.version>
+        <fastjson.version>1.2.74</fastjson.version>
+        <spring.data.redis.version>2.3.0.RELEASE</spring.data.redis.version>
+        <aliyun.sdk.oss.version>3.10.2</aliyun.sdk.oss.version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.5.RELEASE</version>
+    </parent>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 引入springcloud alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 引入springcloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- mysql mybatis druid -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.vcerion}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+</project>

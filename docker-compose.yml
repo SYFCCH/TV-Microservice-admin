@@ -1,0 +1,16 @@
+version: "3.9"
+
+networks:
+  centos_network:
+
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.2
+    ports:
+      - "8848:8848"
+    environment:
+      - "JVM_XMS=256m"
+      - "JVM_XMX=256m"
+      - "MODE=standalone"
+    networks:
+      - centos_network
