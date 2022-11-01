@@ -16,14 +16,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author syf
+ */
 @RestController
 @RequestMapping("videos")
 public class VideoController {
 
     private static final Logger log = LoggerFactory.getLogger(VideoController.class);
 
-    @Autowired
     private VideoService videoService;
+    @Autowired
+    public VideoController(VideoService videoService) {
+        this.videoService = videoService;
+    }
 
     @GetMapping
     public Map<String, Object> videos(@RequestParam(value = "page", defaultValue = "1") Integer page,

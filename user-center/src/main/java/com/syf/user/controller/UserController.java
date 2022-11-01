@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author  syf
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -43,5 +46,4 @@ public class UserController {
         map.put("total_count",totalCounts);
         return map;
     }
-
 }

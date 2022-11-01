@@ -24,11 +24,9 @@ public class CategoryController {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
 
-
     /**
      * 服务对象
      */
-
     private CategoryService categoryService;
 
     @Autowired
@@ -81,10 +79,6 @@ public class CategoryController {
             log.info("删除失败");
         }
     }
-
-
-
-
 
 }
 
