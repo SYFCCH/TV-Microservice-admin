@@ -1,19 +1,117 @@
 version: "3.9"
 
 networks:
-  centos_network:
+  yingxue_network:
+
+volumes:
+  mqdata:
 
 services:
-  nacos:
-    image: nacos/nacos-server:2.0.2
+
+  rabbitmq:
+    image: rabbitmq:3.7.28-management
     ports:
-      - "8848:8848"
-    environment:
-      - "JVM_XMS=256m"
-      - "JVM_XMX=256m"
-      - "MODE=standalone"
+      - "15672:15672"
+      - "5672:5672"
     networks:
-      - centos_network
+      - yingxue_network
+    env_file:
+      - ./rabbmitq.env
+    volumes:
+      - mqdata:/var/lib/rabbitmq
+    restart: always
+  es:
+    image: elasticsearch:6.8.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./ik/:/usr/share/elasticsearch/plugins/ik
+      - ./jvm.options:/usr/share/elasticsearch/config/jvm.options
+    networks:
+      - yingxue_network
+    restart: always
 
-
-
+  kibana:
+    image: kibana:6.8.0
+    ports:
+      - 5601:5601
+    networks:
+      - yingxue_network
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - es
+    restart: always
+#  admins:
+#    build:
+#      context: ./images/admins
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8980:8980"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  admins01:
+#    build:
+#      context: ./images/admins
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8988:8980"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  category:
+#    build:
+#      context: ./images/category
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8981:8981"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  gateway:
+#    build:
+#      context: ./images/gateway
+#      dockerfile: Dockerfile
+#    ports:
+#      - "9999:9999"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  users:
+#    build:
+#      context: ./images/users
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8982:8982"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  videos:
+#    build:
+#      context: ./images/videos
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8983:8983"
+#    depends_on:
+#      - mysql
+#      - nacos
+#      - redis
+#
+#  nginx:
+#    image: nginx:1.21.1
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./admin-dist:/usr/share/nginx/html:ro

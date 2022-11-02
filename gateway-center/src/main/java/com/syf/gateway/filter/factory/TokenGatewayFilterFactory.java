@@ -2,19 +2,15 @@ package com.syf.gateway.filter.factory;
 
 
 import com.syf.common.constants.RedisPrefix;
-import com.syf.common.exceptions.ConfigException;
 import com.syf.common.exceptions.IllegalTokenException;
 import com.syf.common.exceptions.WithoutTokenException;
-import com.syf.redis.config.RedisAutoConfig;
-import com.syf.redis.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -32,13 +28,12 @@ public class TokenGatewayFilterFactory extends AbstractGatewayFilterFactory<Toke
     private static final Logger log = LoggerFactory.getLogger(TokenGatewayFilterFactory.class);
 
     private  static final String REQUIRED_TOKEN = "requiredToken";
-    ApplicationContext context = new AnnotationConfigApplicationContext(RedisAutoConfig.class);
-    RedisUtils redisUtils;
+    private RedisTemplate redisTemplate;
 
     @Autowired
-    public TokenGatewayFilterFactory() {
+    public TokenGatewayFilterFactory(RedisTemplate redisTemplate) {
         super(Config.class);
-        redisUtils = (RedisUtils) context.getBean("redisUtils");
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -53,6 +48,7 @@ public class TokenGatewayFilterFactory extends AbstractGatewayFilterFactory<Toke
             @Override
             public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
                 log.info("进入filter...");
+                log.info("config required token: {}", config.requiredToken);
                 if(config.requiredToken) {
                     //网关拦截获取token信息
                     List<String> tokens = exchange.getRequest().getQueryParams().get("token");
@@ -63,11 +59,9 @@ public class TokenGatewayFilterFactory extends AbstractGatewayFilterFactory<Toke
                     String token = tokens.get(0);
                     log.info("token:{}", token);
                     //去redis中找token
-                    if (redisUtils.hasKey(RedisPrefix.TOKEN_KEY + token)) {
+                    if (!redisTemplate.hasKey(RedisPrefix.TOKEN_KEY + token)) {
                         throw new IllegalTokenException("令牌不合法!");
                     }
-                }else{
-                    throw new ConfigException("配置没开启");
                 }
                     return chain.filter(exchange);
             }

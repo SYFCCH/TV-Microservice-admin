@@ -26,3 +26,7 @@ TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 如果你发请求的时候，网关微服务的控制台什么都没有，那说明服务连断言都没进，说明是网关的问题   
 
 
+
+# ES 部署错误：  vm给es 的内存太小了  
+<https://blog.csdn.net/symuamua/article/details/104346501?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-104346501-blog-116380039.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-104346501-blog-116380039.pc_relevant_default&utm_relevant_index=1>        
+
